@@ -36,7 +36,7 @@ public class DbCmd {
             conn = DriverManager.getConnection(url);
             PreparedStatement stmt = conn.prepareStatement(query);
             for(int i=0; i<params.length; ++i)
-                stmt.setObject(i, params[i]);
+                stmt.setObject(i+1, params[i]);
             ResultSet rs = stmt.executeQuery();
             ResultSetMetaData rsinfo = rs.getMetaData();
 
@@ -80,7 +80,7 @@ public class DbCmd {
             conn = DriverManager.getConnection(url);
             PreparedStatement stmt = conn.prepareStatement(cmd);
             for(int i=0; i<params.length; ++i)
-                stmt.setObject(i, params[i]);
+                stmt.setObject(i+1, params[i]);
             return stmt.executeUpdate();
         } finally {
             if(conn != null && !conn.isClosed())
