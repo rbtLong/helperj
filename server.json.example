@@ -1,0 +1,30 @@
+{
+  "prod_hostname": "prod",
+  "env": "local",
+  "host": "127.0.0.1",
+  "port": 8082,
+  "db": {
+    "logs": {
+      "user": "",
+      "password": "",
+      "host": "",
+      "database": "logs",
+      "type": "mysql",
+      "app": ""
+    },
+    "rbtlong_dev": {
+      "user": "",
+      "password": "",
+      "host": "",
+      "database": "",
+      "type": "mysql"
+    },
+    "rbtlong_prod": {
+      "user": "",
+      "password": "",
+      "host": "",
+      "database": "rbtlong_prod",
+      "type": "mysql"
+    }
+  }
+}
