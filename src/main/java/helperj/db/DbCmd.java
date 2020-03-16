@@ -21,10 +21,19 @@ public class DbCmd {
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(url);
-            return cb.call(conn);
-        } finally {
+            conn.setAutoCommit(false);
+            Object res = cb.call(conn);
+            conn.commit();
+            return res;
+        } catch (SQLException e) {
             if(conn != null && !conn.isClosed())
+                conn.rollback();
+            throw e;
+        } finally {
+            if(conn != null && !conn.isClosed()) {
                 conn.close();
+                conn.setAutoCommit(true);
+            }
         }
     }
 
@@ -32,12 +41,14 @@ public class DbCmd {
             throws SQLException, ClassNotFoundException {
         Class.forName(mysql_classname);
         Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
         try {
             conn = DriverManager.getConnection(url);
-            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt = conn.prepareStatement(query);
             for(int i=0; i<params.length; ++i)
                 stmt.setObject(i+1, params[i]);
-            ResultSet rs = stmt.executeQuery();
+            rs = stmt.executeQuery();
             ResultSetMetaData rsinfo = rs.getMetaData();
 
             ArrayList<String> _cols = new ArrayList<>();
@@ -60,8 +71,9 @@ public class DbCmd {
 
             return _rows;
         } finally {
-            if(conn != null && !conn.isClosed())
-                conn.close();
+            if(rs != null && !rs.isClosed()) rs.close();
+            if(stmt !=null && !stmt.isClosed()) stmt.close();
+            if(conn != null && !conn.isClosed()) conn.close();
         }
     }
 
@@ -76,15 +88,26 @@ public class DbCmd {
     public int update(String cmd, @NotNull Object... params) throws ClassNotFoundException, SQLException {
         Class.forName(mysql_classname);
         Connection conn = null;
+        PreparedStatement stmt = null;
         try {
             conn = DriverManager.getConnection(url);
-            PreparedStatement stmt = conn.prepareStatement(cmd);
+            conn.setAutoCommit(false);
+            stmt = conn.prepareStatement(cmd);
             for(int i=0; i<params.length; ++i)
                 stmt.setObject(i+1, params[i]);
-            return stmt.executeUpdate();
-        } finally {
+            int res = stmt.executeUpdate();
+            conn.commit();
+            return res;
+        } catch (SQLException e) {
             if(conn != null && !conn.isClosed())
+                conn.rollback();
+            throw e;
+        } finally {
+            if(stmt != null && !stmt.isClosed()) stmt.close();
+            if(conn != null && !conn.isClosed()) {
+                conn.setAutoCommit(true);
                 conn.close();
+            }
         }
     }
 

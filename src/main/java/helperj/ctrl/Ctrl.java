@@ -18,6 +18,7 @@ public class Ctrl {
     public static void Res(Context ctx, Object content, double success, int status) {
         Map<String, Object> res = Result(content, success);
         ctx.status(status);
+        ctx.contentType("application/json");
         GsonBuilder gbuilder = new GsonBuilder();
         Gson gson = gbuilder.serializeNulls().create();
         ctx.result(gson.toJson(res));

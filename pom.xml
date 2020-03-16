@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>helperj</groupId>
+    <artifactId>helperj</artifactId>
+    <version>1.0</version>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <javalin.version>3.7.0</javalin.version>
+        <jetty.version>9.4.25.v20191220</jetty.version>
+        <slf4j.version>1.7.28</slf4j.version>
+        <jackson.version>2.10.1</jackson.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <kotlin.version>1.3.61</kotlin.version>
+        <kotlin.compiler.jvmTarget>1.6</kotlin.compiler.jvmTarget> <!-- This is 1.6 on purpose, don't bump -->
+        <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
+        <maven.compiler.source>1.8</maven.compiler.source> <!-- Java Version 11 -->
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+    
+</project>

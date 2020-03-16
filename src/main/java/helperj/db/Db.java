@@ -12,6 +12,21 @@ public class Db {
         return SrvCfg.getProdHostName().equals(Inet4Address.getLocalHost().getHostName());
     }
 
+    public static String logsConnStr() throws FileNotFoundException {
+        return makeConnStr(SrvCfg.dblogs());
+    }
+
+    public static String rbtLongConnStr() throws FileNotFoundException, UnknownHostException {
+        Map<String, Object> db = null;
+
+        if(isProd())
+            db = SrvCfg.dbrbtlong_prod();
+        else
+            db = SrvCfg.dbrbtlong_dev();
+
+        return makeConnStr(db);
+    }
+
     public static String makeConnStr(Map<String, Object> db) {
         String host = (String) db.get("host");
         String username = (String) db.get("user");
@@ -24,18 +39,11 @@ public class Db {
     }
 
     public static DbCmd Logs() throws FileNotFoundException {
-        return new DbCmd(makeConnStr(SrvCfg.dblogs()));
+        return new DbCmd(logsConnStr());
     }
 
     public static DbCmd rbtLong() throws UnknownHostException, FileNotFoundException {
-        Map<String, Object> db = null;
-
-        if(isProd())
-            db = SrvCfg.dbrbtlong_prod();
-        else
-            db = SrvCfg.dbrbtlong_dev();
-
-        return new DbCmd(makeConnStr(db));
+        return new DbCmd(rbtLongConnStr());
     }
 
 }
