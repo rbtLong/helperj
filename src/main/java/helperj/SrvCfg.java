@@ -10,10 +10,14 @@ import java.util.Map;
 public class SrvCfg {
 
     private static Map<String, Object> data = null;
+    private static String _path = "server.json";
 
-    private static void loadConfig() throws FileNotFoundException {
+    private static void loadConfig(String path) throws FileNotFoundException {
+        if(path != null)
+            _path = path;
+
         data = new Gson().fromJson(
-                new FileReader("server.json"),
+                new FileReader(_path),
                 new TypeToken<Map<String, Object>>(){}.getType());
     }
 
@@ -21,10 +25,14 @@ public class SrvCfg {
         return (String)data.get("prod_hostname");
     }
 
-    public static Map<String, Object> get() throws FileNotFoundException {
+    public static Map<String, Object> get(String path) throws FileNotFoundException {
         if(data == null)
-            loadConfig();
+            loadConfig(path);
         return data;
+    }
+
+    public static Map<String, Object> get() throws FileNotFoundException {
+        return get(null);
     }
 
     public static Map<String, Object> db() throws FileNotFoundException {
