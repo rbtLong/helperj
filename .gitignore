@@ -2,3 +2,7 @@ server.json
 .idea/
 helperj.iml
 target/
+build/
+.gradle/
+out/
+target/
