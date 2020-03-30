@@ -21,3 +21,14 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.6'
     compile 'mysql:mysql-connector-java:5.1.13'
 }
+
+jar {
+    manifest {
+        attributes(
+                'Class-Path': configurations.runtime.files.collect { "$it.name" }.join(' '),
+        )
+    }
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
